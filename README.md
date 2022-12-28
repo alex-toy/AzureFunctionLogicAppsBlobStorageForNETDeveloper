@@ -39,11 +39,16 @@ Install-Package Azure.Storage.Blobs
 <img src="/pictures/shared_access_token_account_level.png" title="shared access token account level"  width="800">
 
 
+## Azure Functions in the Azure Portal
+
+<img src="/pictures/create_function_app.png" title="create function app"  width="800">
+<img src="/pictures/create_function_app2.png" title="create function app"  width="800">
+<img src="/pictures/create_function_app3.png" title="create function app"  width="800">
+<img src="/pictures/create_function_app4.png" title="create function app"  width="800">
+<img src="/pictures/create_function_app5.png" title="create function app"  width="800">
+<img src="/pictures/create_function_app6.png" title="create function app"  width="800">
 
 
+## Azure Functions In Visual Studio
 
-### Migration scripts for the database in **Products.API**
-```
-Add-Migration AddProductToDb
-Update-Database
-```
+<img src="/pictures/create_function_app.png" title="create function app"  width="800">

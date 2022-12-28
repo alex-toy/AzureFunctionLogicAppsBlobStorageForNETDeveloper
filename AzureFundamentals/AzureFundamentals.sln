@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBlobProject", "AzureBlobProject\AzureBlobProject.csproj", "{46C7A67B-7DF8-4CB3-B29C-9ABF6E1C7A59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionTangyWeb", "AzureFunctionTangyWeb\AzureFunctionTangyWeb.csproj", "{2F4D4516-CE4B-4A41-A54C-A836086C002F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{46C7A67B-7DF8-4CB3-B29C-9ABF6E1C7A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C7A67B-7DF8-4CB3-B29C-9ABF6E1C7A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C7A67B-7DF8-4CB3-B29C-9ABF6E1C7A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4D4516-CE4B-4A41-A54C-A836086C002F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4D4516-CE4B-4A41-A54C-A836086C002F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4D4516-CE4B-4A41-A54C-A836086C002F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4D4516-CE4B-4A41-A54C-A836086C002F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
