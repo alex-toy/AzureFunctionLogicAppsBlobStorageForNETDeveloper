@@ -22,7 +22,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Images()
     {
-        return View(await _blobService.GetAllBlobsWithUri("privatecontainer"));
+        List<Blob> blobs = await _blobService.GetAllBlobsWithUri("images");
+        return View(blobs);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

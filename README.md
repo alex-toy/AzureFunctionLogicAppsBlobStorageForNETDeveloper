@@ -33,6 +33,11 @@ Install-Package Azure.Storage.Blobs
 <img src="/pictures/add_blob.png" title="add blob"  width="800">
 <img src="/pictures/added_blob.png" title="add blob"  width="800">
 
+### Shared Access Token
+
+<img src="/pictures/shared_access_token.png" title="shared access token"  width="800">
+<img src="/pictures/shared_access_token_account_level.png" title="shared access token account level"  width="800">
+
 
 
 

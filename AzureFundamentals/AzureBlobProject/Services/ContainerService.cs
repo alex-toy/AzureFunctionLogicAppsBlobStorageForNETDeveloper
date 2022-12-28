@@ -56,6 +56,10 @@ public class ContainerService : IContainerService
                 {
                     blobToAdd += "(" + blobProperties.Metadata["title"] + ")";
                 }
+                if (blobProperties.Metadata.ContainsKey("type"))
+                {
+                    blobToAdd += "(" + blobProperties.Metadata["type"] + ")";
+                }
 
                 containerAndBlobNames.Add("------" + blobToAdd);
             }

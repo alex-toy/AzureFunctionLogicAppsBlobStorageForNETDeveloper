@@ -2,6 +2,7 @@
 using AzureBlobProject.Models;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
+using Azure.Storage.Blobs.Specialized;
 
 namespace AzureBlobProject.Services;
 public class BlobService : IBlobService
@@ -40,62 +41,72 @@ public class BlobService : IBlobService
     public async Task<List<Blob>> GetAllBlobsWithUri(string containerName)
     {
         BlobContainerClient blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
-        var blobs = blobContainerClient.GetBlobsAsync();
+        Azure.AsyncPageable<BlobItem> blobs = blobContainerClient.GetBlobsAsync();
         var blobList = new List<Blob>();
         string sasContainerSignature = "";
 
         if (blobContainerClient.CanGenerateSasUri)
         {
-            BlobSasBuilder sasBuilder = new()
-            {
-                BlobContainerName = blobContainerClient.Name,
-                Resource = "c",
-                ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-            };
-
-            sasBuilder.SetPermissions(BlobSasPermissions.Read);
-
-            sasContainerSignature = blobContainerClient.GenerateSasUri(sasBuilder).AbsoluteUri.Split('?')[1].ToString();
+            sasContainerSignature = GenerateSasUri(blobContainerClient);
         }
-
-
 
         await foreach (var item in blobs)
         {
-            var blobClient = blobContainerClient.GetBlobClient(item.Name);
+            BlobClient blobClient = blobContainerClient.GetBlobClient(item.Name);
             Blob blobIndividual = new()
             {
                 Uri = blobClient.Uri.AbsoluteUri + "?" + sasContainerSignature
             };
 
-            //if (blobClient.CanGenerateSasUri)
-            //{
-            //    BlobSasBuilder sasBuilder = new()
-            //    {
-            //        BlobContainerName = blobClient.GetParentBlobContainerClient().Name,
-            //        BlobName = blobClient.Name,
-            //        Resource = "b",
-            //        ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-            //    };
-
-            //    sasBuilder.SetPermissions(BlobSasPermissions.Read);
-
-            //    blobIndividual.Uri = blobClient.GenerateSasUri(sasBuilder).AbsoluteUri;
-            //}
-
-            BlobProperties properties = await blobClient.GetPropertiesAsync();
-            if (properties.Metadata.ContainsKey("title"))
+            if (blobClient.CanGenerateSasUri)
             {
-                blobIndividual.Title = properties.Metadata["title"];
+                BlobSasBuilder sasBuilder = new()
+                {
+                    BlobContainerName = blobClient.GetParentBlobContainerClient().Name,
+                    BlobName = blobClient.Name,
+                    Resource = "b",
+                    ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
+                };
+
+                sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+                blobIndividual.Uri = blobClient.GenerateSasUri(sasBuilder).AbsoluteUri;
             }
-            if (properties.Metadata.ContainsKey("comment"))
-            {
-                blobIndividual.Comment = properties.Metadata["comment"];
-            }
-            blobList.Add(blobIndividual);
+
+            await PopulateBlobList(blobList, blobClient, blobIndividual);
         }
 
         return blobList;
+    }
+
+    private static string GenerateSasUri(BlobContainerClient blobContainerClient)
+    {
+        string sasContainerSignature;
+        BlobSasBuilder sasBuilder = new()
+        {
+            BlobContainerName = blobContainerClient.Name,
+            Resource = "c",
+            ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
+        };
+
+        sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+        sasContainerSignature = blobContainerClient.GenerateSasUri(sasBuilder).AbsoluteUri.Split('?')[1].ToString();
+        return sasContainerSignature;
+    }
+
+    private static async Task PopulateBlobList(List<Blob> blobList, BlobClient blobClient, Blob blobIndividual)
+    {
+        BlobProperties properties = await blobClient.GetPropertiesAsync();
+        if (properties.Metadata.ContainsKey("title"))
+        {
+            blobIndividual.Title = properties.Metadata["title"];
+        }
+        if (properties.Metadata.ContainsKey("comment"))
+        {
+            blobIndividual.Comment = properties.Metadata["comment"];
+        }
+        blobList.Add(blobIndividual);
     }
 
     public async Task<string> GetBlob(string name, string containerName)
@@ -118,8 +129,7 @@ public class BlobService : IBlobService
             ContentType = file.ContentType
         };
 
-        IDictionary<string, string> metadata =
-         new Dictionary<string, string>();
+        IDictionary<string, string> metadata = new Dictionary<string, string>();
 
         metadata.Add("title", blob.Title);
         metadata["comment"] = blob.Comment;
@@ -130,11 +140,7 @@ public class BlobService : IBlobService
 
         //await blobClient.SetMetadataAsync(metadata);
 
-        if (result != null)
-        {
-            return true;
-        }
-        return false;
+        return result != null;
     }
 
 }
