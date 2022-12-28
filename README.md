@@ -9,17 +9,33 @@ In this project, we will study 4 of the essential services that every .NET devel
 
 ## Azure Blob Storage 
 
+### Package Manager Command in **AzureBlobStorage**
+```
+Install-Package Azure.Storage.Blobs
+```
+
 ### Create Storage Account
 
+<img src="/pictures/containers.png" title="containers"  width="800">
 <img src="/pictures/connection_strings.png" title="connection strings"  width="600">
 
+### Create Container
+
+<img src="/pictures/before.png" title="before"  width="800">
+<img src="/pictures/create_container.png" title="create container"  width="800">
+<img src="/pictures/create_container2.png" title="create container"  width="800">
+<img src="/pictures/create_container3.png" title="create container"  width="800">
+<img src="/pictures/after.png" title="after"  width="800">
+
+### Add Blob
+
+<img src="/pictures/blob_before.png" title="before"  width="800">
+<img src="/pictures/add_blob.png" title="add blob"  width="800">
+<img src="/pictures/added_blob.png" title="add blob"  width="800">
 
 
 
-### Package Manager Command in **Products.API**
-```
-Install-Package AutoMapper
-```
+
 
 ### Migration scripts for the database in **Products.API**
 ```
