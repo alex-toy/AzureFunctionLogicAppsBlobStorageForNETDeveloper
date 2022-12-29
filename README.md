@@ -51,4 +51,21 @@ Install-Package Azure.Storage.Blobs
 
 ## Azure Functions In Visual Studio
 
-<img src="/pictures/create_function_app.png" title="create function app"  width="800">
+<img src="/pictures/function_app_vs.png" title="function app visual studio"  width="800">
+<img src="/pictures/function_app_vs2.png" title="function app visual studio"  width="800">
+<img src="/pictures/function_app_vs3.png" title="function app visual studio"  width="800">
+<img src="/pictures/function_app_vs4.png" title="function app visual studio"  width="800">
+
+Get the connection strings in the **Access Keys** section and paste it for *AzureWebJobsStorage* in the file *local.settings.json*
+<img src="/pictures/function_app_vs_connection_string.png" title="function app connection string"  width="800">
+
+### Package Manager Command in **AzureTangyFunc**
+```
+Install-Package Microsoft.Azure.Extensions.Storage
+```
+
+Before call :
+<img src="/pictures/empty_queue.png" title="empty queue"  width="800">
+<img src="/pictures/queue_call.png" title="queue call"  width="800">
+<img src="/pictures/queue_after_call.png" title="queue after call"  width="800">
+<img src="/pictures/queue_after_call2.png" title="queue after call"  width="800">
