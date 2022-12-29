@@ -67,5 +67,15 @@ Install-Package Microsoft.Azure.Extensions.Storage
 Before call :
 <img src="/pictures/empty_queue.png" title="empty queue"  width="800">
 <img src="/pictures/queue_call.png" title="queue call"  width="800">
+After call:
 <img src="/pictures/queue_after_call.png" title="queue after call"  width="800">
 <img src="/pictures/queue_after_call2.png" title="queue after call"  width="800">
+
+### Create SQL Database
+
+<img src="/pictures/sql_database.png" title="sql database"  width="800">
+<img src="/pictures/set_firewall_rules.png" title="firewall rules"  width="800">
+<img src="/pictures/sql_connection_strings.png" title="sql connection strings"  width="800">
+
+In local database, create tables :
+<img src="/pictures/create_table_local.png" title="create table local"  width="800">
