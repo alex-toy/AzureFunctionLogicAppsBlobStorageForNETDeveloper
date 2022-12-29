@@ -62,6 +62,7 @@ Get the connection strings in the **Access Keys** section and paste it for *Azur
 ### Package Manager Command in **AzureTangyFunc**
 ```
 Install-Package Microsoft.Azure.Extensions.Storage
+Install-Package Microsoft.EntityframeworkCore.SqlServer
 ```
 
 Before call :
@@ -79,3 +80,8 @@ After call:
 
 In local database, create tables :
 <img src="/pictures/create_table_local.png" title="create table local"  width="800">
+
+### Create Azure Function
+
+<img src="/pictures/create_azure_function.png" title="create azure function"  width="800">
+<img src="/pictures/create_azure_function2.png" title="create azure function"  width="800">
