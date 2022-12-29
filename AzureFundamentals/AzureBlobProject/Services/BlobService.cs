@@ -47,7 +47,7 @@ public class BlobService : IBlobService
 
         if (blobContainerClient.CanGenerateSasUri)
         {
-            sasContainerSignature = GenerateSasUri(blobContainerClient);
+            sasContainerSignature = GenerateContainerSAS(blobContainerClient);
         }
 
         await foreach (var item in blobs)
@@ -58,20 +58,10 @@ public class BlobService : IBlobService
                 Uri = blobClient.Uri.AbsoluteUri + "?" + sasContainerSignature
             };
 
-            if (blobClient.CanGenerateSasUri)
-            {
-                BlobSasBuilder sasBuilder = new()
-                {
-                    BlobContainerName = blobClient.GetParentBlobContainerClient().Name,
-                    BlobName = blobClient.Name,
-                    Resource = "b",
-                    ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-                };
-
-                sasBuilder.SetPermissions(BlobSasPermissions.Read);
-
-                blobIndividual.Uri = blobClient.GenerateSasUri(sasBuilder).AbsoluteUri;
-            }
+            //if (blobClient.CanGenerateSasUri)
+            //{
+            //    GenerateClientSAS(blobClient, blobIndividual);
+            //}
 
             await PopulateBlobList(blobList, blobClient, blobIndividual);
         }
@@ -79,7 +69,22 @@ public class BlobService : IBlobService
         return blobList;
     }
 
-    private static string GenerateSasUri(BlobContainerClient blobContainerClient)
+    private static void GenerateClientSAS(BlobClient blobClient, Blob blobIndividual)
+    {
+        BlobSasBuilder sasBuilder = new()
+        {
+            BlobContainerName = blobClient.GetParentBlobContainerClient().Name,
+            BlobName = blobClient.Name,
+            Resource = "b",
+            ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
+        };
+
+        sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+        blobIndividual.Uri = blobClient.GenerateSasUri(sasBuilder).AbsoluteUri;
+    }
+
+    private static string GenerateContainerSAS(BlobContainerClient blobContainerClient)
     {
         string sasContainerSignature;
         BlobSasBuilder sasBuilder = new()
@@ -98,14 +103,17 @@ public class BlobService : IBlobService
     private static async Task PopulateBlobList(List<Blob> blobList, BlobClient blobClient, Blob blobIndividual)
     {
         BlobProperties properties = await blobClient.GetPropertiesAsync();
+
         if (properties.Metadata.ContainsKey("title"))
         {
             blobIndividual.Title = properties.Metadata["title"];
         }
+
         if (properties.Metadata.ContainsKey("comment"))
         {
             blobIndividual.Comment = properties.Metadata["comment"];
         }
+
         blobList.Add(blobIndividual);
     }
 

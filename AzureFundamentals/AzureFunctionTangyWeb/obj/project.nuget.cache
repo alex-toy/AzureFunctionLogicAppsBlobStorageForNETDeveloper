@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9sUTE3o1RxMw6ntpNqki/siTXq1fZEfN+DN67s4hiUfpFCFEH0eQTXaMTAY69ueux9FVw3iilJiGCy4xq8KgZA==",
+  "dgSpecHash": "yBClkZVryXXs4OiUsw8mofp9xVNJT4iEyujHKHL+I7XnWSUFRf4kQS5vIDkvLhWJwnFqsLr2Yi0QYAbG8tTDfw==",
   "success": true,
   "projectFilePath": "C:\\source\\CsharpLibraries\\AzureFunctionLogicAppsBlobStorageForNETDeveloper\\AzureFundamentals\\AzureFunctionTangyWeb\\AzureFunctionTangyWeb.csproj",
   "expectedPackageFiles": [

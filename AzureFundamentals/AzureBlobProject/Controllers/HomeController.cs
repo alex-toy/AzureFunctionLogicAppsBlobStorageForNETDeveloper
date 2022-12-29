@@ -22,7 +22,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Images()
     {
-        List<Blob> blobs = await _blobService.GetAllBlobsWithUri("images");
+        List<Blob> blobs = await _blobService.GetAllBlobsWithUri("privatecontainer");
         return View(blobs);
     }
 

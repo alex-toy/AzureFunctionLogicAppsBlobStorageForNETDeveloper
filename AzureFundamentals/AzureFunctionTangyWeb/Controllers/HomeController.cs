@@ -30,27 +30,24 @@ public class HomeController : Controller
         using (var content = new StringContent(JsonConvert.SerializeObject(salesRequest),
             System.Text.Encoding.UTF8, "application/json"))
         {
-            //call our function and pass the content
-
-            HttpResponseMessage response = await client.PostAsync("http://localhost:7071/api/OnSalesUploadWriteToQueue", content);
+            string url = "http://localhost:7071/api/OnSalesUploadWriteToQueue";
+            HttpResponseMessage response = await client.PostAsync(url, content);
             string returnValue = response.Content.ReadAsStringAsync().Result;
         }
-        if (file != null)
+
+        if (file == null) RedirectToAction(nameof(Index));
+
+        var fileName = salesRequest.Id + Path.GetExtension(file.FileName);
+        BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient("functionsalesrep");
+        var blobClient = blobContainerClient.GetBlobClient(fileName);
+
+        var httpHeaders = new BlobHttpHeaders
         {
-            var fileName = salesRequest.Id + Path.GetExtension(file.FileName);
-            BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient("functionsalesrep");
-            var blobClient = blobContainerClient.GetBlobClient(fileName);
+            ContentType = file.ContentType
+        };
 
-            var httpHeaders = new BlobHttpHeaders
-            {
-                ContentType = file.ContentType
-            };
-
-            await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
-            return View();
-        }
-
-        return RedirectToAction(nameof(Index));
+        await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
+        return View();
     }
 
     public IActionResult Privacy()
