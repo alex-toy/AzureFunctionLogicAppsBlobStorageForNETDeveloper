@@ -35,8 +35,15 @@ public class HomeController : Controller
             string returnValue = response.Content.ReadAsStringAsync().Result;
         }
 
-        if (file == null) RedirectToAction(nameof(Index));
+        if (file == null) return RedirectToAction(nameof(Index));
 
+        await UploadFileToBlob(salesRequest, file);
+
+        return View();
+    }
+
+    private async Task UploadFileToBlob(SalesRequest salesRequest, IFormFile file)
+    {
         var fileName = salesRequest.Id + Path.GetExtension(file.FileName);
         BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient("functionsalesrep");
         var blobClient = blobContainerClient.GetBlobClient(fileName);
@@ -47,7 +54,6 @@ public class HomeController : Controller
         };
 
         await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
-        return View();
     }
 
     public IActionResult Privacy()

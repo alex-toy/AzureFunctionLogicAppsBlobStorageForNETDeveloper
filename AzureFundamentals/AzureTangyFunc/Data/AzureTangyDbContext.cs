@@ -5,12 +5,12 @@ namespace AzureTangyFunc.Data
 {
     public class AzureTangyDbContext : DbContext
     {
+        public DbSet<SalesRequest> SalesRequests { get; set; }
+        public DbSet<GroceryItem> GroceryItems { get; set; }
+
         public AzureTangyDbContext(DbContextOptions<AzureTangyDbContext> dbContextOptions) : base(dbContextOptions)
         {
         }
-
-        public DbSet<SalesRequest> SalesRequests { get; set; }
-        public DbSet<GroceryItem> GroceryItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
